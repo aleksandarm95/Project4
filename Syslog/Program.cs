@@ -10,6 +10,7 @@ namespace Syslog
     {
         static void Main(string[] args)
         {
+            Console.WriteLine();
         }
     }
 }
