@@ -10,7 +10,7 @@ namespace Syslog
     {
         static void Main(string[] args)
         {
-            Console.WriteLine();
+            Console.WriteLine("Provera od kuce!");
         }
     }
 }
