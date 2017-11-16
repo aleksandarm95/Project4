@@ -5,6 +5,8 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace SyslogClient
 {
@@ -18,6 +20,13 @@ namespace SyslogClient
             ServiceHost host = new ServiceHost(typeof(Services));
             host.AddServiceEndpoint(typeof(IServices), binding, address);
             host.Open();
+        }
+
+        public static void XmlSerialize(SyslogMessage syslogMessage)
+        {
+           
+            
+                     
         }
     }
 }

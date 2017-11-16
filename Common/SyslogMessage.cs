@@ -12,7 +12,7 @@ namespace Common
 
         public int Severity { get; set; }
 
-        public DateTime SendTime { get; set; }
+        public DateTime Time { get; set; }
 
         public string HostName { get; set; }
 
