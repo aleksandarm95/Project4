@@ -1,10 +1,10 @@
-﻿using Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
 
 namespace SyslogClient
 {
@@ -19,7 +19,5 @@ namespace SyslogClient
             host.AddServiceEndpoint(typeof(IServices), binding, address);
             host.Open();
         }
-
-
     }
 }

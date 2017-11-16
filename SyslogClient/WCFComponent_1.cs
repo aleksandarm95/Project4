@@ -1,10 +1,10 @@
-﻿using Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
 
 namespace SyslogClient
 {
@@ -13,7 +13,7 @@ namespace SyslogClient
         public WCFComponent_1()
         {
             NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://localhost:9999/SecurityService";
+            string address = "net.tcp://localhost:25000/SecurityService";
 
             ServiceHost host = new ServiceHost(typeof(Services));
             host.AddServiceEndpoint(typeof(IServices), binding, address);
