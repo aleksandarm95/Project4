@@ -12,7 +12,7 @@ namespace SyslogClient
         {
             WCFComponent_1 wcfc1 = new WCFComponent_1();
             WCFComponent_2 wcfc2 = new WCFComponent_2();
-
+            Console.WriteLine("Sone was here...");
             Console.ReadLine();
         }
     }
