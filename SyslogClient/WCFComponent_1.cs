@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
 using Common;
+using System.Threading;
 
 namespace SyslogClient
 {
@@ -22,12 +23,27 @@ namespace SyslogClient
             host.Open();
         }
 
-        public static void EventLogSerialize(SyslogMessage syslogMessage)
+        public static bool EventLogSerialize(SyslogMessage syslogMessage)
         {
             bool allowed = false;
-            //odraditi CustomPrincipal i videti da li je korisnik Reader
-           
-            Audit.AuthorizationSuccess("Branci", syslogMessage);
+            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
+
+            /// audit both successfull and failed authorization checks
+            if (principal.IsInRole(Permissions.Read.ToString()))
+            {
+                Audit.AuthorizationSuccess(principal.Identity.Name, syslogMessage);
+
+                Console.WriteLine("ExecuteCommand() passed for user {0}.", principal.Identity.Name);
+                allowed = true;
+            }
+            else
+            {
+                Audit.AuthorizationFailed(principal.Identity.Name, syslogMessage);
+                Console.WriteLine("ExecuteCommand() failed for user {0}.", principal.Identity.Name);
+            }
+
+            return allowed;
+
         }
     }
 }
