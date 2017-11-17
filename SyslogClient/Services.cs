@@ -25,10 +25,13 @@ namespace SyslogClient
             if(component == 1)
             {
                 WCFComponent_1.XmlSerialize(syslogMessage);
-                return true;
+            }
+            else
+            {
+                WCFComponent_2.XmlSerialize(syslogMessage);
             }
 
-            WCFComponent_2.XmlSerialize(syslogMessage);
+            
 
 
             //DEKRIPTUJ

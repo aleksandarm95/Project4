@@ -24,9 +24,6 @@ namespace SyslogClient
 
         public static void XmlSerialize(SyslogMessage syslogMessage)
         {
-           
-            
-                     
         }
     }
 }
