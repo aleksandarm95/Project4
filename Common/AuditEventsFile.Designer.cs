@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SecurityManager {
+namespace Common {
     using System;
     
     
@@ -19,7 +19,7 @@ namespace SecurityManager {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class AuditEventsFile {
@@ -39,7 +39,7 @@ namespace SecurityManager {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SecurityManager.AuditEventsFile", typeof(AuditEventsFile).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Common.AuditEventsFile", typeof(AuditEventsFile).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -70,7 +70,7 @@ namespace SecurityManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User {0} SUCCESSFULLY accessed, Facility: {1}, Security: {2}, Time: {3}, Host name: {4}, Message: {5}  .
+        ///   Looks up a localized string similar to User {0} SUCCESSFULLY accessed, Facility: {1}, Security: {2}, Time: {3}, Host name: {4}, Message: {5}.
         /// </summary>
         internal static string UserAuthorizationSuccess {
             get {

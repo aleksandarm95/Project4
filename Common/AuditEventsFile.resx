@@ -121,6 +121,6 @@
     <value>User {0} accessed FAILED, Facility: {1}, Security: {2}, Time: {3}, Host name: {4}, Message: {5}</value>
   </data>
   <data name="UserAuthorizationSuccess" xml:space="preserve">
-    <value>User {0} SUCCESSFULLY accessed, Facility: {1}, Security: {2}, Time: {3}, Host name: {4}, Message: {5}  </value>
+    <value>User {0} SUCCESSFULLY accessed, Facility: {1}, Security: {2}, Time: {3}, Host name: {4}, Message: {5}</value>
   </data>
 </root>

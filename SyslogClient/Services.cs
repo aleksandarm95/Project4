@@ -34,15 +34,15 @@ namespace SyslogClient
 
             
 
-            string messageToSend = syslogMessage.Time.ToString() + "\t"+ syslogMessage.HostName.ToString() + "\t" + syslogMessage.Facility.ToString() + "\t" + syslogMessage.Severity.ToString() + "\t" + syslogMessage.Message;
+            //string messageToSend = syslogMessage.Time.ToString() + "\t"+ syslogMessage.HostName.ToString() + "\t" + syslogMessage.Facility.ToString() + "\t" + syslogMessage.Severity.ToString() + "\t" + syslogMessage.Message;
 
-            NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://localhost:26000/SecurityService";
+            //NetTcpBinding binding = new NetTcpBinding();
+            //string address = "net.tcp://localhost:26000/SecurityService";
 
-            using(SyslogClientProxy proxy = new SyslogClientProxy(binding, address))
-            {
-                proxy.Send(Encoding.ASCII.GetBytes(messageToSend));
-            }
+            //using(SyslogClientProxy proxy = new SyslogClientProxy(binding, address))
+            //{
+            //    proxy.Send(Encoding.ASCII.GetBytes(messageToSend));
+            //}
 
             return true;
         }

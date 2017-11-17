@@ -4,10 +4,9 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
-using Common;
 using System.Xml.Serialization;
 using System.IO;
-using SecurityManager;
+using Common;
 
 namespace SyslogClient
 {
@@ -27,7 +26,7 @@ namespace SyslogClient
         {
             bool allowed = false;
             //odraditi CustomPrincipal i videti da li je korisnik Reader
-
+           
             Audit.AuthorizationSuccess("Branci", syslogMessage);
         }
     }

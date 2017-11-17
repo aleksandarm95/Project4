@@ -44,9 +44,9 @@
     <Compile Include="Audit.cs" />
     <Compile Include="AuditEvents.cs" />
     <Compile Include="AuditEventsFile.Designer.cs">
-      <DependentUpon>AuditEventsFile.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>AuditEventsFile.resx</DependentUpon>
     </Compile>
     <Compile Include="Class1.cs" />
     <Compile Include="IServices.cs" />
