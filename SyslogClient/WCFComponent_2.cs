@@ -47,8 +47,6 @@ namespace SyslogClient
             streamWriter = new StreamWriter(@"..\..\SyslogFile.xml");
             xmlSerializer.Serialize(streamWriter, syslogList);
             streamWriter.Close();
-
-
         }
     }
 }

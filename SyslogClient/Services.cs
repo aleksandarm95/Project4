@@ -25,12 +25,14 @@ namespace SyslogClient
 
             if(component == 1)
             {
-                WCFComponent_1.XmlSerialize(syslogMessage);
+                WCFComponent_1.EventLogSerialize(syslogMessage);
             }
             else
             {
                 WCFComponent_2.XmlSerialize(syslogMessage);
             }
+
+            
 
             string messageToSend = syslogMessage.Time.ToString() + "\t"+ syslogMessage.HostName.ToString() + "\t" + syslogMessage.Facility.ToString() + "\t" + syslogMessage.Severity.ToString() + "\t" + syslogMessage.Message;
 

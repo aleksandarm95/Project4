@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Common;
 using System.Xml.Serialization;
 using System.IO;
+using SecurityManager;
 
 namespace SyslogClient
 {
@@ -22,9 +23,12 @@ namespace SyslogClient
             host.Open();
         }
 
-        public static void XmlSerialize(SyslogMessage syslogMessage)
+        public static void EventLogSerialize(SyslogMessage syslogMessage)
         {
-            
+            bool allowed = false;
+            //odraditi CustomPrincipal i videti da li je korisnik Reader
+
+            Audit.AuthorizationSuccess("Branci", syslogMessage);
         }
     }
 }
