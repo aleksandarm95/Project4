@@ -10,7 +10,8 @@ namespace Syslog
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("MJAU");
+            SyslogService ss = new SyslogService();
+            Console.ReadLine();
         }
     }
 }

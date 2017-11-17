@@ -46,6 +46,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services.cs" />
+    <Compile Include="SyslogClientProxy.cs" />
     <Compile Include="WCFComponent_1.cs" />
     <Compile Include="WCFComponent_2.cs" />
   </ItemGroup>

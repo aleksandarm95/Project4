@@ -1,30 +1,23 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
-using Common;
-using System.Xml.Serialization;
-using System.IO;
 
-namespace SyslogClient
+namespace Syslog
 {
-    public class WCFComponent_1
+    public class SyslogService
     {
-        public WCFComponent_1()
+        public SyslogService()
         {
             NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://localhost:25000/SecurityService";
+            string address = "net.tcp://localhost:26000/SecurityService";
 
             ServiceHost host = new ServiceHost(typeof(Services));
             host.AddServiceEndpoint(typeof(IServices), binding, address);
             host.Open();
-        }
-
-        public static void XmlSerialize(SyslogMessage syslogMessage)
-        {
-            
         }
     }
 }

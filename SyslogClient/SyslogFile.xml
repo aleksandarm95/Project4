@@ -28,4 +28,25 @@
     <HostName>Branci-PC\Branci</HostName>
     <Message>34534</Message>
   </SyslogMessage>
+  <SyslogMessage>
+    <Facility>1</Facility>
+    <Severity>1</Severity>
+    <Time>2017-11-17T14:45:23.6842992+01:00</Time>
+    <HostName>DESKTOP-MSBPGIG\Babic</HostName>
+    <Message>132</Message>
+  </SyslogMessage>
+  <SyslogMessage>
+    <Facility>1</Facility>
+    <Severity>1</Severity>
+    <Time>2017-11-17T14:46:34.0011694+01:00</Time>
+    <HostName>DESKTOP-MSBPGIG\Babic</HostName>
+    <Message>123</Message>
+  </SyslogMessage>
+  <SyslogMessage>
+    <Facility>1</Facility>
+    <Severity>5</Severity>
+    <Time>2017-11-17T14:47:45.2397725+01:00</Time>
+    <HostName>DESKTOP-MSBPGIG\Babic</HostName>
+    <Message>321312</Message>
+  </SyslogMessage>
 </ArrayOfSyslogMessage>

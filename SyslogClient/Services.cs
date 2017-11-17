@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 using System.Threading;
+using System.ServiceModel;
 
 namespace SyslogClient
 {
@@ -25,17 +26,23 @@ namespace SyslogClient
             if(component == 1)
             {
                 WCFComponent_1.XmlSerialize(syslogMessage);
-                return true;
+            }
+            else
+            {
+                WCFComponent_2.XmlSerialize(syslogMessage);
             }
 
-            WCFComponent_2.XmlSerialize(syslogMessage);
+            string messageToSend = syslogMessage.Time.ToString() + "\t"+ syslogMessage.HostName.ToString() + "\t" + syslogMessage.Facility.ToString() + "\t" + syslogMessage.Severity.ToString() + "\t" + syslogMessage.Message;
 
+            NetTcpBinding binding = new NetTcpBinding();
+            string address = "net.tcp://localhost:26000/SecurityService";
 
-            //DEKRIPTUJ
+            using(SyslogClientProxy proxy = new SyslogClientProxy(binding, address))
+            {
+                proxy.Send(Encoding.ASCII.GetBytes(messageToSend));
+            }
 
-
-
-            return false;
+            return true;
         }
     }
 }
