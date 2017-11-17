@@ -24,7 +24,7 @@ namespace SyslogClient
 
             if(component == 1)
             {
-                WCFComponent_1.XmlSerialize(syslogMessage);
+                WCFComponent_1.EventLogSerialize(syslogMessage);
             }
             else
             {
