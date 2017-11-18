@@ -28,4 +28,11 @@
     <HostName>Branci-PC\Branci</HostName>
     <Message>34534</Message>
   </SyslogMessage>
+  <SyslogMessage>
+    <Facility>1</Facility>
+    <Severity>1</Severity>
+    <Time>2017-11-17T12:10:47.9473163+01:00</Time>
+    <HostName>DESKTOP-I1PQ7M0\LENOVO</HostName>
+    <Message>123</Message>
+  </SyslogMessage>
 </ArrayOfSyslogMessage>
