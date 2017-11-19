@@ -25,7 +25,7 @@ namespace Common
                 {
                     var name = sid.Translate(typeof(NTAccount));
 
-                    string groupName = Formatter.ParseName(name.ToString());    /// return name of the Windows group				
+                    string groupName = Formatter.ParseName(name.ToString()); /// return name of the Windows group				
                     Console.WriteLine(groupName);
                     if (!roles.ContainsKey(groupName))
                     {
@@ -34,10 +34,8 @@ namespace Common
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
-                    throw;
+                    continue;
                 }
-               
             }
         }
 

@@ -23,7 +23,7 @@ namespace SyslogClient
             ServiceHost host = new ServiceHost(typeof(Services));
             host.AddServiceEndpoint(typeof(IServices), binding, address);
 
-           host.Authorization.ServiceAuthorizationManager = new CustomAuthorizationManager();
+           //host.Authorization.ServiceAuthorizationManager = new CustomAuthorizationManager();
 
             List<IAuthorizationPolicy> policies = new List<IAuthorizationPolicy>();
             policies.Add(new CustomAuthorizationPolicy());
