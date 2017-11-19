@@ -23,7 +23,7 @@ namespace SyslogClient
             ServiceHost host = new ServiceHost(typeof(Services));
             host.AddServiceEndpoint(typeof(IServices), binding, address);
 
-            host.Authorization.ServiceAuthorizationManager = new CustomAuthorizationManager();
+           host.Authorization.ServiceAuthorizationManager = new CustomAuthorizationManager();
 
             List<IAuthorizationPolicy> policies = new List<IAuthorizationPolicy>();
             policies.Add(new CustomAuthorizationPolicy());
@@ -39,7 +39,7 @@ namespace SyslogClient
             bool allowed = false;
             CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
 
-            /// audit both successfull and failed authorization checks
+         
             if (principal.IsInRole(Permissions.Read.ToString()))
             {
                 Audit.AuthorizationSuccess(principal.Identity.Name, syslogMessage);

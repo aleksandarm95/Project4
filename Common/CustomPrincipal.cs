@@ -21,13 +21,23 @@ namespace Common
             foreach (IdentityReference group in this.identity.Groups)
             {
                 SecurityIdentifier sid = (SecurityIdentifier)group.Translate(typeof(SecurityIdentifier));
-                var name = sid.Translate(typeof(NTAccount));
-                string groupName = Formatter.ParseName(name.ToString());    /// return name of the Windows group				
-
-                if (!roles.ContainsKey(groupName))
+                try
                 {
-                    roles.Add(groupName, RolesConfiguration.GetPermissions(groupName));
+                    var name = sid.Translate(typeof(NTAccount));
+
+                    string groupName = Formatter.ParseName(name.ToString());    /// return name of the Windows group				
+                    Console.WriteLine(groupName);
+                    if (!roles.ContainsKey(groupName))
+                    {
+                        roles.Add(groupName, RolesConfiguration.GetPermissions(groupName));
+                    }
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+               
             }
         }
 
