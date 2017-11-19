@@ -12,8 +12,6 @@ namespace Syslog
     {
         public bool Send(byte[] message)
         {
-            //StreamReader sr = new StreamReader()
-
             string messageFrom = Encoding.UTF8.GetString(message);
 
             Console.WriteLine(messageFrom);
@@ -25,7 +23,7 @@ namespace Syslog
 
             try
             {
-                StreamReader sr = new StreamReader(@"..\..\SyslogServices.txt");
+                StreamReader sr = new StreamReader(@"..\..\..\SyslogServices.txt");
 
                 line = sr.ReadLine();
 
@@ -35,29 +33,25 @@ namespace Syslog
                 }
 
                 lines.Add(line);
-                //Continue to read until you reach end of file
+
                 while (line != null)
                 {
-                    //write the lie to console window
-                    //Console.WriteLine(line);
-                    //Read the next line
                     line = sr.ReadLine();
                     lines.Add(line);
                 }
-
-                //close the file
+                
                 sr.Close();
             }
             catch
             {
-                sw = new StreamWriter(@"..\..\SyslogServices.txt");
+                sw = new StreamWriter(@"..\..\..\SyslogServices.txt");
 
                 sw.Close();
             }
 
             lines.Add(messageFrom);
 
-            sw = new StreamWriter(@"..\..\SyslogServices.txt");
+            sw = new StreamWriter(@"..\..\..\SyslogServices.txt");
 
             foreach (var item in lines)
             {
