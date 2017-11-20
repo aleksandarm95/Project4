@@ -17,6 +17,11 @@ namespace Client
             factory = this.CreateChannel();
         }
 
+        public bool CheckIfPrimary()
+        {
+            return factory.CheckIfPrimary();
+        }
+
         public bool Send(byte[] message)
         {
             return factory.Send(message);

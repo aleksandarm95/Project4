@@ -8,12 +8,9 @@ using System.Threading.Tasks;
 namespace Common
 {
     [ServiceContract]
-    public interface IServices
+    public interface ISystemServer
     {
         [OperationContract]
-        bool Send(byte[] message);
-
-        [OperationContract]
-        bool CheckIfPrimary();
+        bool CheckIfAlive();
     }
 }

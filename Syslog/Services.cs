@@ -10,6 +10,15 @@ namespace Syslog
 {
     public class Services : IServices
     {
+        public bool CheckIfPrimary()
+        {
+            if (Program.serverKind == SyslogService.ServerKind.Primary)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool Send(byte[] message)
         {
             string messageFrom = Encoding.UTF8.GetString(message);
