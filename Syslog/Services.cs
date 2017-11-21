@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -68,6 +69,16 @@ namespace Syslog
                 }
             }
             sw.Close();
+
+            try
+            {
+                SyslogService ss = new SyslogService();
+                ISystemServer proxy = ss.CreateClientSide("58001");
+                proxy.Send(message);
+            }
+            catch
+            {
+            }
 
             return true;
         }

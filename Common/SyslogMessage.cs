@@ -17,5 +17,7 @@ namespace Common
         public string HostName { get; set; }
 
         public string Message { get; set; }
+
+        public string successfullyAccessed { get; set; }
     }
 }

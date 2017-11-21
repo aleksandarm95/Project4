@@ -9,6 +9,8 @@ namespace Syslog
 {
     class Program
     {
+        public static bool firstConnect = false;
+
         public static SyslogService.ServerKind serverKind = SyslogService.ServerKind.Secondary;
 
         static void Main(string[] args)
@@ -23,7 +25,7 @@ namespace Syslog
             Task t = new Task(() =>
             {
                 ss.CreateServerSide(portServer);
-
+                
                 while (true)
                 {
                     serverKind = SetServerRole(serverKind, portClient, ss);
@@ -38,21 +40,42 @@ namespace Syslog
         public static SyslogService.ServerKind SetServerRole(SyslogService.ServerKind serverKind, string portClient, SyslogService ss)
         {
             SyslogService.ServerKind _serverKind = SyslogService.ServerKind.Unknown;
-
             try
             {
+
+
                 ISystemServer proxy = ss.CreateClientSide(portClient);
-                proxy.CheckIfAlive();
+
+                if (!firstConnect)
+                {
+                    string dataBase = GetDataBase();
+                    
+                    proxy.SendDatabase(dataBase);
+                    firstConnect = true;
+                }
+                else
+                {
+                    proxy.CheckIsAlive();
+                }
                 _serverKind = serverKind;
-                
             }
             catch
             {
                 Console.WriteLine(portClient + "-> primarni");
                 _serverKind = SyslogService.ServerKind.Primary;
+                firstConnect = false;
             }
 
             return _serverKind;
+        }
+
+        public static string GetDataBase()
+        {
+            string dataBase = "";
+
+
+
+            return dataBase;
         }
     }
 }

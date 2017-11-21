@@ -32,7 +32,7 @@ namespace Common
                         roles.Add(groupName, RolesConfiguration.GetPermissions(groupName));
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     continue;
                 }

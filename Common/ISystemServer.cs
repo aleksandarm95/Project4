@@ -11,6 +11,12 @@ namespace Common
     public interface ISystemServer
     {
         [OperationContract]
-        bool CheckIfAlive();
+        bool Send(byte[] message);
+
+        [OperationContract]
+        void SendDatabase(string message);
+
+        [OperationContract]
+        bool CheckIsAlive();
     }
 }

@@ -28,16 +28,28 @@ namespace SyslogClient
             syslogMessage.Message = arrayRecieved[2];
             syslogMessage.HostName = Thread.CurrentPrincipal.Identity.Name;
 
+            bool successfullyAccessed = false;
+
             if(component == 1)
             {
-                WCFComponent_1.EventLogSerialize(syslogMessage);
+                successfullyAccessed = WCFComponent_1.EventLogSerialize(syslogMessage);
             }
             else
             {
-                WCFComponent_2.XmlSerialize(syslogMessage);
+                successfullyAccessed = WCFComponent_2.XmlSerialize(syslogMessage);
             }
 
-            string messageToSend = syslogMessage.Time.ToString() + "\t"+ syslogMessage.HostName.ToString() + "\t" + syslogMessage.Facility.ToString() + "\t" + syslogMessage.Severity.ToString() + "\t" + syslogMessage.Message;
+            string messageToSend = "";
+            if (successfullyAccessed)
+            {
+                messageToSend = syslogMessage.Time.ToString() + "\t" + syslogMessage.HostName.ToString() + "\t" + "SUCCESSFULLY accessed" + 
+                    syslogMessage.Facility.ToString() + "\t" + syslogMessage.Severity.ToString() + "\t" + syslogMessage.Message;
+            }
+            else
+            {
+                messageToSend = syslogMessage.Time.ToString() + "\t" + syslogMessage.HostName.ToString() + "\t" + "FAILED accessed" + 
+                    syslogMessage.Facility.ToString() + "\t" + syslogMessage.Severity.ToString() + "\t" + syslogMessage.Message;
+            }
 
             bool first = false;
 

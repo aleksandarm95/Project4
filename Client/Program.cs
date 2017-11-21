@@ -42,7 +42,7 @@ namespace Client
                 if (component == "1")
                 {
                     NetTcpBinding binding = new NetTcpBinding();
-                    string address = "net.tcp://localhost:25000/SecurityService";
+                    string address = "net.tcp://10.1.212.116:55555/SecurityService";
 
                     using (ClientProxy proxy = new ClientProxy(binding, address))
                     {
@@ -52,7 +52,7 @@ namespace Client
                 else
                 {
                     NetTcpBinding binding = new NetTcpBinding();
-                    string address = "net.tcp://localhost:25001/SecurityService";
+                    string address = "net.tcp://10.1.212.116:44444/SecurityService";
 
                     using (ClientProxy proxy = new ClientProxy(binding, address))
                     {

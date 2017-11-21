@@ -16,6 +16,7 @@ namespace Syslog
             Secondary
         }
 
+        public SyslogService() { }
         public SyslogService(string port)
         {
             NetTcpBinding binding = new NetTcpBinding();
