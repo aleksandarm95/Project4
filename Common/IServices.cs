@@ -14,6 +14,8 @@ namespace Common
         bool Send(byte[] message);
 
         [OperationContract]
+        bool SendTry(byte[] message, byte[] signature);
+        [OperationContract]
         bool CheckIfPrimary();
     }
 }

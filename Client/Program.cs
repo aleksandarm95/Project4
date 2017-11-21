@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
+using Manager;
 
 namespace Client
 {
@@ -17,6 +19,13 @@ namespace Client
             string component = "";
             string message = "";
             string messageToSend = "";
+
+            #region Cert
+
+            string syslogClientCert = "syslogclient";
+            string clientCert_sign = "client_sign";
+
+            #endregion
             do
             {
                 Console.WriteLine("Izaberitre nacin upisivanja:");
@@ -39,20 +48,32 @@ namespace Client
 
                 messageToSend = severity + "`" + component + "`" + message;
 
+                NetTcpBinding binding = null;
+
                 if (component == "1")
                 {
-                    NetTcpBinding binding = new NetTcpBinding();
-                    string address = "net.tcp://localhost:55555/SecurityService";
+                    binding = new NetTcpBinding();
+                    binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+                    X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, syslogClientCert);
+                    EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:55555/SecurityService"),
+                        new X509CertificateEndpointIdentity(srvCert));
 
                     using (ClientProxy proxy = new ClientProxy(binding, address))
                     {
-                        proxy.Send(Encoding.ASCII.GetBytes(messageToSend));
+                        X509Certificate2 signCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, clientCert_sign);
+
+                        // Create a signature using SHA1 hash algorithm
+                        byte[] signature = DigitalSignature.Create(messageToSend, "SHA1", signCert);
+                        proxy.SendTry(Encoding.ASCII.GetBytes(messageToSend), signature);
                     }
                 }
                 else
                 {
-                    NetTcpBinding binding = new NetTcpBinding();
-                    string address = "net.tcp://localhost:44444/SecurityService";
+                    binding = new NetTcpBinding();
+                    binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+                    X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, syslogClientCert);
+                    EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:44444/SecurityService"),
+                        new X509CertificateEndpointIdentity(srvCert));
 
                     using (ClientProxy proxy = new ClientProxy(binding, address))
                     {

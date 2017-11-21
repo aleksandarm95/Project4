@@ -17,6 +17,11 @@ namespace SyslogClient
             factory = this.CreateChannel();
         }
 
+        public bool SendTry(byte[] message, byte[] signature)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool CheckIfPrimary()
         {
             return factory.CheckIfPrimary();

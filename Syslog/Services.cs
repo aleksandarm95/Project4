@@ -11,6 +11,11 @@ namespace Syslog
 {
     public class Services : IServices
     {
+        public bool SendTry(byte[] message, byte[] signature)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool CheckIfPrimary()
         {
             if (Program.serverKind == SyslogService.ServerKind.Primary)
