@@ -1,6 +1,7 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -72,8 +73,25 @@ namespace Syslog
         public static string GetDataBase()
         {
             string dataBase = "";
+            string line = "";
 
+            StreamReader sr = new StreamReader(@"..\..\..\SyslogServices.txt");
 
+            line = sr.ReadLine();
+            if (line == null)
+            {
+                sr.Close();
+            }
+
+            dataBase+= line;
+
+            while (line != null)
+            {
+                line = sr.ReadLine();
+                dataBase += "~" + line;
+            }
+
+            sr.Close();
 
             return dataBase;
         }

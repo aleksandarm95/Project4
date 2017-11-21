@@ -71,7 +71,19 @@ namespace Syslog
 
         public void SendDatabase(string message)
         {
-            throw new NotImplementedException();
+            StreamWriter sw = null;
+
+            string[] lines = message.Split('~');
+
+            sw = new StreamWriter(@"..\..\..\SyslogServices.txt");
+            lock (lines)
+            {
+                foreach (var item in lines)
+                {
+                    sw.WriteLine(item);
+                }
+            }
+            sw.Close();
         }
     }
 }
