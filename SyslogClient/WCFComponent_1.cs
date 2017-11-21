@@ -18,7 +18,7 @@ namespace SyslogClient
         public WCFComponent_1()
         {
             NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://localhost:25000/SecurityService";
+            string address = "net.tcp://localhost:55555/SecurityService";
 
             ServiceHost host = new ServiceHost(typeof(Services));
             host.AddServiceEndpoint(typeof(IServices), binding, address);
