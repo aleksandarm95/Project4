@@ -16,6 +16,7 @@ namespace Client
     {
         static void Main(string[] args)
         {
+            Console.ReadLine();
             string component = "";
             string message = "";
             string messageToSend = "";
@@ -41,6 +42,7 @@ namespace Client
                 {
                     Console.WriteLine("Unesite tip poruke[0-7]:");
                     severity = Convert.ToInt32(Console.ReadLine());
+                    //try za los unos
                 } while (severity < 0 || severity > 7);
 
                 Console.WriteLine("Unesite poruku:");
@@ -64,7 +66,8 @@ namespace Client
 
                         // Create a signature using SHA1 hash algorithm
                         byte[] signature = DigitalSignature.Create(messageToSend, "SHA1", signCert);
-                        proxy.SendTry(Encoding.ASCII.GetBytes(messageToSend), signature);
+                        var arr = Encoding.ASCII.GetBytes(messageToSend);
+                        proxy.SendTry(arr, signature);
                     }
                 }
                 else

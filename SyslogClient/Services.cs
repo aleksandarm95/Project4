@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
@@ -15,8 +16,9 @@ namespace SyslogClient
     {
         public bool SendTry(byte[] message, byte[] signature)
         {
+            var m = Encoding.ASCII.GetString(message);
             X509Certificate2 clientCertificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "client_sign");
-            if (DigitalSignature.Verify(message.ToString(), "SHA1", signature, clientCertificate))
+            if (DigitalSignature.Verify(m, "SHA1", signature, clientCertificate))
             {
                 Console.WriteLine("Digital Signature is valid.");
                 SyslogMessage syslogMessage = new SyslogMessage();
@@ -30,10 +32,37 @@ namespace SyslogClient
                 syslogMessage.HostName = Thread.CurrentPrincipal.Identity.Name;
 
                 bool successfullyAccessed = false;
-
+                bool groupExists = false;
                 if (component == 1)
                 {
-                    successfullyAccessed = WCFComponent_1.EventLogSerialize(syslogMessage);
+                    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    WindowsPrincipal principal = Thread.CurrentPrincipal as WindowsPrincipal;
+                    var groups = ((WindowsIdentity) (principal.Identity)).Groups;
+                    if (groups != null)
+                        foreach (IdentityReference group in groups)
+                        {
+                            SecurityIdentifier sid = (SecurityIdentifier) @group.Translate(typeof(SecurityIdentifier));
+                            var name = sid.Translate(typeof(NTAccount));
+                            if (name.Value == "Reader")
+                            {
+                                groupExists = true;
+                                break;
+                            }
+                        }
+                    if (groupExists)
+                    {
+                        Audit.AuthorizationSuccess(principal.Identity.Name, syslogMessage);
+
+                        Console.WriteLine("ExecuteCommand() passed for user {0}.", principal.Identity.Name);
+                        successfullyAccessed = true;
+                    }
+                    else
+                    {
+                        Audit.AuthorizationFailed(principal.Identity.Name, syslogMessage);
+                        Console.WriteLine("ExecuteCommand() failed for user {0}.", principal.Identity.Name);
+                        successfullyAccessed = false;
+                    }
+                    //successfullyAccessed = WCFComponent_1.EventLogSerialize(syslogMessage);
                 }
                 else
                 {
@@ -57,10 +86,15 @@ namespace SyslogClient
                 }
 
                 bool first = false;
-
+                //string syslogServerCert1 = "syslog";
+                //string syslogServerCert2 = "syslog2";
+                //string syslogClient_sign = "syslogclient_sign";
                 try
                 {
                     NetTcpBinding binding = new NetTcpBinding();
+                    //X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, syslogServerCert1);
+                    //EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:26000/SecurityService"),
+                    //    new X509CertificateEndpointIdentity(srvCert));
                     string address = "net.tcp://localhost:26000/SecurityService";
 
                     using (SyslogClientProxy proxy = new SyslogClientProxy(binding, address))
@@ -139,7 +173,7 @@ namespace SyslogClient
 
             if(component == 1)
             {
-                successfullyAccessed = WCFComponent_1.EventLogSerialize(syslogMessage);
+               // successfullyAccessed = WCFComponent_1.EventLogSerialize(syslogMessage);
             }
             else
             {

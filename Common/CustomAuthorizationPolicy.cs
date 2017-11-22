@@ -61,6 +61,8 @@ namespace Common
                     principal = new CustomPrincipal(windowsIdentity);
                 }
 
+                //WindowsPrincipal principal = new WindowsPrincipal((WindowsIdentity)identity);
+
                 return principal;
             }
         }

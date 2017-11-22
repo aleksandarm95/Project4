@@ -11,6 +11,7 @@ using System.Threading;
 using System.ServiceModel.Description;
 using System.IdentityModel.Policy;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.ServiceModel.Security;
 using Manager;
 
@@ -32,7 +33,7 @@ namespace SyslogClient
             policies.Add(new CustomAuthorizationPolicy());
             host.Authorization.ExternalAuthorizationPolicies = policies.AsReadOnly();
 
-            host.Authorization.PrincipalPermissionMode = PrincipalPermissionMode.Custom;
+           //host.Authorization.PrincipalPermissionMode = PrincipalPermissionMode.Custom;
 
             host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
             host.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertValidator();
@@ -40,30 +41,36 @@ namespace SyslogClient
             host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
             host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, syslogClientCert);
 
+
+            host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
             host.Open();
         }
 
-        public static bool EventLogSerialize(SyslogMessage syslogMessage)
-        {
-            bool allowed = false;
-            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
+        //public static bool EventLogSerialize(SyslogMessage syslogMessage)
+        //{
+        //    bool allowed = false;
 
-         
-            if (principal.IsInRole(Permissions.Read.ToString()))
-            {
-                Audit.AuthorizationSuccess(principal.Identity.Name, syslogMessage);
+        //    WindowsPrincipal principal = Thread.CurrentPrincipal as WindowsPrincipal;
 
-                Console.WriteLine("ExecuteCommand() passed for user {0}.", principal.Identity.Name);
-                allowed = true;
-            }
-            else
-            {
-                Audit.AuthorizationFailed(principal.Identity.Name, syslogMessage);
-                Console.WriteLine("ExecuteCommand() failed for user {0}.", principal.Identity.Name);
-            }
+           
+        //    WindowsIdentity identity = WindowsIdentity.GetCurrent();
+        //    var groups = from sid in identity.Groups select sid.Translate(typeof(NTAccount))
+        //    if (principal.IsInRole(Permissions.Read.ToString()))
+        //    {
+        //        Audit.AuthorizationSuccess(principal.Identity.Name, syslogMessage);
 
-            return allowed;
+        //        Console.WriteLine("ExecuteCommand() passed for user {0}.", principal.Identity.Name);
+        //        allowed = true;
+        //    }
+        //    else
+        //    {
+        //        Audit.AuthorizationFailed(principal.Identity.Name, syslogMessage);
+        //        Console.WriteLine("ExecuteCommand() failed for user {0}.", principal.Identity.Name);
+        //    }
 
-        }
+        //    return allowed;
+
+        //}
     }
 }

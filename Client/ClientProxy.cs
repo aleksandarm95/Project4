@@ -18,7 +18,8 @@ namespace Client
 
         public ClientProxy(NetTcpBinding binding, EndpointAddress address) : base(binding, address)
         {
-            string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+            //string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+            string cltCertCN = "client";
 
             this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
             this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertValidator();
@@ -32,7 +33,15 @@ namespace Client
 
         public bool SendTry(byte[] message, byte[] signature)
         {
-            return factory.SendTry(message, signature);
+            try
+            {
+                return factory.SendTry(message, signature);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public bool CheckIfPrimary()

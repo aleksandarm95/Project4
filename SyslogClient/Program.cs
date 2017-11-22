@@ -10,6 +10,7 @@ namespace SyslogClient
     {
         static void Main(string[] args)
         {
+            Console.ReadLine();
             WCFComponent_1 wcfc1 = new WCFComponent_1();
             WCFComponent_2 wcfc2 = new WCFComponent_2();
             Console.ReadLine();
