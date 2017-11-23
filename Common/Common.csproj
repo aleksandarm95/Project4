@@ -85,10 +85,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AuditEventsFile.resx</DependentUpon>
     </Compile>
+    <Compile Include="BlokcPair.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="CustomAuthorizationManager.cs" />
     <Compile Include="CustomAuthorizationPolicy.cs" />
     <Compile Include="CustomPrincipal.cs" />
+    <Compile Include="DES.cs" />
     <Compile Include="Formatter.cs" />
     <Compile Include="IServices.cs" />
     <Compile Include="ISystemServer.cs" />
