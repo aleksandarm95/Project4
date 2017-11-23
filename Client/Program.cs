@@ -17,7 +17,7 @@ namespace Client
         static void Main(string[] args)
         {
             Console.ReadLine();
-            string component = "";
+            string component = ""; 
             string message = "";
             string messageToSend = "";
 
