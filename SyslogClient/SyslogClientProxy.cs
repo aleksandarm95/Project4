@@ -15,16 +15,19 @@ namespace SyslogClient
     public class SyslogClientProxy : ChannelFactory<IServices>, IServices, IDisposable
     {
         IServices factory;
-
         public SyslogClientProxy(NetTcpBinding binding, string address) : base(binding, address)
         {
-            //string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+            factory = this.CreateChannel();
+        }
+        public SyslogClientProxy(NetTcpBinding binding, EndpointAddress address) : base(binding, address)
+        {
+            string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
-            //this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
-            //this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertValidator();
-            //this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+            this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
+            this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertValidator();
+            this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
-            //this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, cltCertCN);
+            this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, cltCertCN);
 
 
             factory = this.CreateChannel();
@@ -32,7 +35,15 @@ namespace SyslogClient
 
         public bool SendTry(byte[] message, byte[] signature)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return factory.SendTry(message, signature);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public bool CheckIfPrimary()

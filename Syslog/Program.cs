@@ -16,7 +16,6 @@ namespace Syslog
 
         static void Main(string[] args)
         {
-
             string portToSyslogServer = Console.ReadLine();
             string portServer = Console.ReadLine();
             string portClient = Console.ReadLine();

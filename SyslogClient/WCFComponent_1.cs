@@ -23,7 +23,7 @@ namespace SyslogClient
         {
             string syslogClientCert = "syslogclient";
             NetTcpBinding binding = new NetTcpBinding();
-            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+            //binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
             string address = "net.tcp://localhost:55555/SecurityService";
 
             ServiceHost host = new ServiceHost(typeof(Services));
@@ -35,42 +35,43 @@ namespace SyslogClient
 
            //host.Authorization.PrincipalPermissionMode = PrincipalPermissionMode.Custom;
 
-            host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
-            host.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertValidator();
-
-            host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
-            host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, syslogClientCert);
-
 
             host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
             host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
             host.Open();
         }
 
-        //public static bool EventLogSerialize(SyslogMessage syslogMessage)
-        //{
-        //    bool allowed = false;
+        public static bool EventLogSerialize(SyslogMessage syslogMessage)
+        {
+            WindowsPrincipal principal = Thread.CurrentPrincipal as WindowsPrincipal;
+            bool groupExists = false;
+            bool successfullyAccessed = false;
+            var groups = ((WindowsIdentity) (principal.Identity)).Groups;
+            if (groups != null)
+                foreach (IdentityReference group in groups)
+                {
+                    SecurityIdentifier sid = (SecurityIdentifier) @group.Translate(typeof(SecurityIdentifier));
+                    var fullName = sid.Translate(typeof(NTAccount));
+                    if (fullName.ToString().Contains("Reader"))
+                    {
+                        groupExists = true;
+                        break;
+                    }
+                }
+            if (groupExists)
+            {
+                Audit.AuthorizationSuccess(principal.Identity.Name, syslogMessage);
 
-        //    WindowsPrincipal principal = Thread.CurrentPrincipal as WindowsPrincipal;
-
-           
-        //    WindowsIdentity identity = WindowsIdentity.GetCurrent();
-        //    var groups = from sid in identity.Groups select sid.Translate(typeof(NTAccount))
-        //    if (principal.IsInRole(Permissions.Read.ToString()))
-        //    {
-        //        Audit.AuthorizationSuccess(principal.Identity.Name, syslogMessage);
-
-        //        Console.WriteLine("ExecuteCommand() passed for user {0}.", principal.Identity.Name);
-        //        allowed = true;
-        //    }
-        //    else
-        //    {
-        //        Audit.AuthorizationFailed(principal.Identity.Name, syslogMessage);
-        //        Console.WriteLine("ExecuteCommand() failed for user {0}.", principal.Identity.Name);
-        //    }
-
-        //    return allowed;
-
-        //}
+                Console.WriteLine("ExecuteCommand() passed for user {0}.", principal.Identity.Name);
+                successfullyAccessed = true;
+            }
+            else
+            {
+                Audit.AuthorizationFailed(principal.Identity.Name, syslogMessage);
+                Console.WriteLine("ExecuteCommand() failed for user {0}.", principal.Identity.Name);
+                successfullyAccessed = false;
+            }
+            return successfullyAccessed;
+        }
     }
 }

@@ -16,6 +16,10 @@ namespace Client
     {
         IServices factory;
 
+        public ClientProxy(NetTcpBinding binding, string address) : base(binding, address)
+        {
+            factory = this.CreateChannel();
+        }
         public ClientProxy(NetTcpBinding binding, EndpointAddress address) : base(binding, address)
         {
             //string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);

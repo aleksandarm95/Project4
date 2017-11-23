@@ -1,4 +1,4 @@
-﻿using System;
+﻿     using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -55,29 +55,19 @@ namespace Client
                 if (component == "1")
                 {
                     binding = new NetTcpBinding();
-                    binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
-                    X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, syslogClientCert);
-                    EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:55555/SecurityService"),
-                        new X509CertificateEndpointIdentity(srvCert));
-
+                    string address = "net.tcp://localhost:55555/SecurityService";
                     using (ClientProxy proxy = new ClientProxy(binding, address))
                     {
-                        X509Certificate2 signCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, clientCert_sign);
-
-                        // Create a signature using SHA1 hash algorithm
-                        byte[] signature = DigitalSignature.Create(messageToSend, "SHA1", signCert);
                         var arr = Encoding.ASCII.GetBytes(messageToSend);
-                        proxy.SendTry(arr, signature);
+                        proxy.Send(arr);
                     }
                 }
                 else
                 {
                     binding = new NetTcpBinding();
-                    binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
-                    X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, syslogClientCert);
-                    EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:44444/SecurityService"),
-                        new X509CertificateEndpointIdentity(srvCert));
+                    //binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
+                    string address = "net.tcp://localhost:44444/SecurityService";
                     using (ClientProxy proxy = new ClientProxy(binding, address))
                     {
                         proxy.Send(Encoding.ASCII.GetBytes(messageToSend));
