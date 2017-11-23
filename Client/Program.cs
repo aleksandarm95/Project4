@@ -21,6 +21,8 @@ namespace Client
             string message = "";
             string messageToSend = "";
 
+
+
             #region Cert
 
             string syslogClientCert = "syslogclient";
@@ -34,7 +36,37 @@ namespace Client
                 component = Console.ReadLine();
 
             } while (component != "1" && component != "2");
-            
+
+            NetTcpBinding binding = null;
+
+            string key1 = "12345678";
+            string key2 = "87654321";
+            string key3 = "11111111";
+
+            byte[] keys = DES.Encrypt(key1 + key2 + key3, DES.ReadKeyFromFile("psw1.txt"), true);
+
+            if (component == "1")
+            {
+                binding = new NetTcpBinding();
+                string address = "net.tcp://10.1.212.155:55555/SecurityService";
+                using (ClientProxy proxy = new ClientProxy(binding, address))
+                {
+
+                    proxy.SendKeys(keys);
+                }
+            }
+            else
+            {
+                binding = new NetTcpBinding();
+                //binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+
+                string address = "net.tcp://10.1.212.155:44444/SecurityService";
+                using (ClientProxy proxy = new ClientProxy(binding, address))
+                {
+                    proxy.SendKeys(keys);
+                }
+            }
+
             while (message != "q")
             {
                 var severity = 0;
@@ -50,16 +82,13 @@ namespace Client
 
                 messageToSend = severity + "`" + component + "`" + message;
 
-                NetTcpBinding binding = null;
-
                 if (component == "1")
                 {
                     binding = new NetTcpBinding();
-                    string address = "net.tcp://localhost:55555/SecurityService";
+                    string address = "net.tcp://10.1.212.155:55555/SecurityService";
                     using (ClientProxy proxy = new ClientProxy(binding, address))
                     {
-                        var arr = Encoding.ASCII.GetBytes(messageToSend);
-                        proxy.Send(arr);
+                        proxy.Send(DES.TripleEncrypt(messageToSend, key1, key2, key3, true));
                     }
                 }
                 else
@@ -67,10 +96,10 @@ namespace Client
                     binding = new NetTcpBinding();
                     //binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
-                    string address = "net.tcp://localhost:44444/SecurityService";
+                    string address = "net.tcp://10.1.212.155:44444/SecurityService";
                     using (ClientProxy proxy = new ClientProxy(binding, address))
                     {
-                        proxy.Send(Encoding.ASCII.GetBytes(messageToSend));
+                        proxy.Send(DES.TripleEncrypt(messageToSend, key1, key2, key3, true));
                     }
                 }
             }

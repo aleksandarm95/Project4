@@ -57,5 +57,10 @@ namespace Client
         {
             return factory.Send(message);
         }
+
+        public void SendKeys(byte[] keys)
+        {
+            factory.SendKeys(keys);
+        }
     }
 }

@@ -153,5 +153,9 @@ namespace Syslog
 
             return true;
         }
+
+        public void SendKeys(byte[] message)
+        { 
+        }
     }
 }

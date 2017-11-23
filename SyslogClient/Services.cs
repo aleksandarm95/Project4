@@ -14,6 +14,7 @@ namespace SyslogClient
 {
     public class Services : IServices
     {
+        static Dictionary<string, string[]> clientsKeys = new Dictionary<string, string[]>();
         public bool SendTry(byte[] message, byte[] signature)
         {
             var m = Encoding.ASCII.GetString(message);
@@ -176,8 +177,22 @@ namespace SyslogClient
         public bool Send(byte[] message)
         {
 
+            WindowsPrincipal principal = Thread.CurrentPrincipal as WindowsPrincipal;
+
+            string decriptMessage = string.Empty;
+
+            if (clientsKeys.ContainsKey(principal.Identity.Name))
+            {
+                decriptMessage = DES.TripleDecrypt(message, clientsKeys[principal.Identity.Name][0], 
+                    clientsKeys[principal.Identity.Name][1], clientsKeys[principal.Identity.Name][2], true);
+            }
+            else
+            {
+                Console.WriteLine("NEMA GA U LISTI-> " + principal.Identity.Name);
+            }
+
             SyslogMessage syslogMessage = new SyslogMessage();
-            var arrayRecieved = System.Text.Encoding.UTF8.GetString(message).Split('`');
+            var arrayRecieved = decriptMessage.Split('`');
 
             int component = Convert.ToInt32(arrayRecieved[1]);
             syslogMessage.Severity = Convert.ToInt32(arrayRecieved[0]);
@@ -302,6 +317,21 @@ namespace SyslogClient
             }
 
             return true;
+        }
+
+        public void SendKeys(byte[] message)
+        {
+            string keys = DES.Decrypt(message, DES.ReadKeyFromFile("psw1.txt"), true);
+
+            string[] retVal = new string[3];
+
+            retVal[0] = keys.Substring(0, 8);
+            retVal[1] = keys.Substring(8, 8);
+            retVal[2] = keys.Substring(16, 8);
+
+            WindowsPrincipal principal = Thread.CurrentPrincipal as WindowsPrincipal;
+
+            clientsKeys.Add(principal.Identity.Name, retVal);
         }
     }
 }
