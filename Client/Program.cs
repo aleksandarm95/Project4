@@ -39,9 +39,13 @@ namespace Client
 
             NetTcpBinding binding = null;
 
-            string key1 = "12345678";
-            string key2 = "87654321";
-            string key3 = "11111111";
+            Random r = new Random();
+
+            string key1 = RandomKey(r);
+            string key2 = RandomKey(r);
+            string key3 = RandomKey(r);
+
+            Console.WriteLine(key1);
 
             byte[] keys = DES.Encrypt(key1 + key2 + key3, DES.ReadKeyFromFile("psw1.txt"), true);
 
@@ -58,7 +62,6 @@ namespace Client
             else
             {
                 binding = new NetTcpBinding();
-                //binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
                 string address = "net.tcp://10.1.212.155:44444/SecurityService";
                 using (ClientProxy proxy = new ClientProxy(binding, address))
@@ -94,7 +97,6 @@ namespace Client
                 else
                 {
                     binding = new NetTcpBinding();
-                    //binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
                     string address = "net.tcp://10.1.212.155:44444/SecurityService";
                     using (ClientProxy proxy = new ClientProxy(binding, address))
@@ -103,6 +105,15 @@ namespace Client
                     }
                 }
             }
+        }
+
+        public static string RandomKey(Random r)
+        {
+            string key = string.Empty;
+
+            key += (r.Next(10000000, 99999999)).ToString();
+
+            return key;
         }
     }
 }
