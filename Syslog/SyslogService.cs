@@ -28,8 +28,8 @@ namespace Syslog
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
             string address = "net.tcp://localhost:"+  port +"/SecurityService";
-            string syslogCert = "syslog";
-           // string srvCertCN = Common.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+            //string syslogCert = "syslog";
+           string syslogCert = Common.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
             ServiceHost host = new ServiceHost(typeof(Services));
             host.AddServiceEndpoint(typeof(IServices), binding, address);
@@ -58,7 +58,7 @@ namespace Syslog
         public ISystemServer CreateClientSide(string port)
         {
             NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://localhost:" + port + "/SystemServer";
+            string address = "net.tcp://10.1.212.120:" + port + "/SystemServer";
 
             ChannelFactory<ISystemServer> factory = new ChannelFactory<ISystemServer>(binding, address);
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Syslog
@@ -19,9 +20,9 @@ namespace Syslog
             string portToSyslogServer = Console.ReadLine();
             string portServer = Console.ReadLine();
             string portClient = Console.ReadLine();
-
+            
             SyslogService ss = new SyslogService(portToSyslogServer);
-
+            
             Task t = new Task(() =>
             {
                 ss.CreateServerSide(portServer);
@@ -42,8 +43,6 @@ namespace Syslog
             SyslogService.ServerKind _serverKind = SyslogService.ServerKind.Unknown;
             try
             {
-
-
                 ISystemServer proxy = ss.CreateClientSide(portClient);
 
                 if (!firstConnect)
