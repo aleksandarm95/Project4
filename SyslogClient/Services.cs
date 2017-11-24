@@ -201,6 +201,8 @@ namespace SyslogClient
             syslogMessage.Message = arrayRecieved[2];
             syslogMessage.HostName = Thread.CurrentPrincipal.Identity.Name;
 
+            Console.WriteLine("PRIMLJENA PORUKA-> " + syslogMessage.Message);
+
             bool successfullyAccessed = false;
             bool groupExists = false;
             if (component == 1)

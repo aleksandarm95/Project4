@@ -26,7 +26,7 @@ namespace Common
                     var name = sid.Translate(typeof(NTAccount));
 
                     string groupName = Formatter.ParseName(name.ToString()); /// return name of the Windows group				
-                    Console.WriteLine(groupName);
+                    
                     if (!roles.ContainsKey(groupName))
                     {
                         roles.Add(groupName, RolesConfiguration.GetPermissions(groupName));
