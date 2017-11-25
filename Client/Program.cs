@@ -75,7 +75,15 @@ namespace Client
                 do
                 {
                     Console.WriteLine("Unesite tip poruke[0-7]:");
-                    severity = Convert.ToInt32(Console.ReadLine());
+                    try
+                    {
+                        severity = Convert.ToInt32(Console.ReadLine());
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Los unos!");
+                        severity = 10;
+                    }
                     //try za los unos
                 } while (severity < 0 || severity > 7);
 

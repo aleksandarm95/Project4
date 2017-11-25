@@ -8,6 +8,7 @@ using Common;
 using System.Xml.Serialization;
 using System.IO;
 using System.Threading;
+using System.Security.Principal;
 
 namespace SyslogClient
 {
@@ -25,15 +26,30 @@ namespace SyslogClient
 
         public static bool XmlSerialize(SyslogMessage syslogMessage)
         {
-            bool allowed = false;
-            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
+            WindowsPrincipal principal = Thread.CurrentPrincipal as WindowsPrincipal;
 
             syslogMessage.successfullyAccessed = "FAILED accessed";
-            if (principal.IsInRole(Permissions.Read.ToString()))
+            /*if (principal.IsInRole(Permissions.Read.ToString()))
             {
                 syslogMessage.successfullyAccessed = "SUCCESSFULLY accessed";
                 allowed = true;
-            }
+            }*/
+
+            bool groupExists = false;
+            
+            var groups = ((WindowsIdentity)(principal.Identity)).Groups;
+            if (groups != null)
+                foreach (IdentityReference group in groups)
+                {
+                    SecurityIdentifier sid = (SecurityIdentifier)@group.Translate(typeof(SecurityIdentifier));
+                    var fullName = sid.Translate(typeof(NTAccount));
+                    if (fullName.ToString().Contains("Reader"))
+                    {
+                        syslogMessage.successfullyAccessed = "SUCCESSFULLY accessed";
+                        groupExists = true;
+                        break;
+                    }
+                }
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<SyslogMessage>));
             StreamReader streamReader = null;
@@ -60,7 +76,7 @@ namespace SyslogClient
             streamWriter.Close();
 
 
-            return allowed;
+            return groupExists;
         }
     }
 }

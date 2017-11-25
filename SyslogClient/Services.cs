@@ -235,13 +235,17 @@ namespace SyslogClient
             string syslogServerCert1 = "syslog";
             string syslogServerCert2 = "syslog2";
             string syslogClient_sign = "syslogclient_sign";
+
+            string portServer1 = "26000";
+            string portServer2 = "27000";
+
             try
             {
                 NetTcpBinding binding = new NetTcpBinding();
                 binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
                 X509Certificate2 srvCert =
                     CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, syslogServerCert1);
-                EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:26000/SecurityService"),
+                EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:" + portServer1 + "/SecurityService"),
                     new X509CertificateEndpointIdentity(srvCert));
                 // string address = "net.tcp://localhost:26000/SecurityService";
 
@@ -270,7 +274,7 @@ namespace SyslogClient
                         X509Certificate2 srvCert2 = CertManager.GetCertificateFromStorage(StoreName.My,
                             StoreLocation.LocalMachine, syslogServerCert2);
                         EndpointAddress address2 = new EndpointAddress(
-                            new Uri("net.tcp://localhost:27000/SecurityService"),
+                            new Uri("net.tcp://localhost:" + portServer2 + "/SecurityService"),
                             new X509CertificateEndpointIdentity(srvCert2));
                         // string address1 = "net.tcp://localhost:27000/SecurityService";
 
@@ -303,7 +307,7 @@ namespace SyslogClient
                 binding2.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
                 X509Certificate2 srvCert2 =
                     CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, syslogServerCert2);
-                EndpointAddress address2 = new EndpointAddress(new Uri("net.tcp://localhost:27000/SecurityService"),
+                EndpointAddress address2 = new EndpointAddress(new Uri("net.tcp://localhost:" + portServer2 + "/SecurityService"),
                     new X509CertificateEndpointIdentity(srvCert2));
                 //string address = "net.tcp://localhost:27000/SecurityService";
 
