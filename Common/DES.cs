@@ -136,7 +136,7 @@ namespace Common
 
             if (input == null || input.Equals(string.Empty) || input.Equals('\n') || firstyKey == null || secondKey == null || thirdKey == null || firstyKey.Length != 8 || secondKey.Length != 8 || thirdKey.Length != 8)
             {
-                Console.WriteLine("TripleEncrypt: Input error!");
+                Console.WriteLine(@"Izaberitre nacin upisivanja [1/2]:");
                 return null;
             }
 
@@ -149,7 +149,7 @@ namespace Common
             }
             catch (Exception e)
             {
-                Console.WriteLine($"TripleEncrypt: {e.Message}");
+                Console.WriteLine($@"TripleEncrypt: {e.Message}");
                 return null;
             }
         }
@@ -168,7 +168,7 @@ namespace Common
 
             if (input == null || input.Length < 1 || firstyKey == null || secondKey == null || thirdKey == null || firstyKey.Length != 8 || secondKey.Length != 8 || thirdKey.Length != 8)
             {
-                Console.WriteLine("TripleDecrypt: Input error!");
+                Console.WriteLine(@"Izaberitre nacin upisivanja [1/2]:");
                 return null;
             }
 
@@ -182,7 +182,7 @@ namespace Common
             }
             catch (Exception e)
             {
-                Console.WriteLine($"TripleDecrypt: {e.Message}");
+                Console.WriteLine($@"TripleDecrypt: {e.Message}");
                 return null;
             }
         }

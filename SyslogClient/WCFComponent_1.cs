@@ -23,7 +23,6 @@ namespace SyslogClient
         {
             string syslogClientCert = "syslogclient";
             NetTcpBinding binding = new NetTcpBinding();
-            //binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
             string address = "net.tcp://localhost:55555/SecurityService";
 
             ServiceHost host = new ServiceHost(typeof(Services));
@@ -32,9 +31,6 @@ namespace SyslogClient
             List<IAuthorizationPolicy> policies = new List<IAuthorizationPolicy>();
             policies.Add(new CustomAuthorizationPolicy());
             host.Authorization.ExternalAuthorizationPolicies = policies.AsReadOnly();
-
-           //host.Authorization.PrincipalPermissionMode = PrincipalPermissionMode.Custom;
-
 
             host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
             host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });

@@ -18,6 +18,6 @@ namespace Common
 
         public string Message { get; set; }
 
-        public string successfullyAccessed { get; set; }
+        public string SuccessfullyAccessed { get; set; }
     }
 }

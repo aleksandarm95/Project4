@@ -21,7 +21,7 @@ namespace SyslogClient
             X509Certificate2 clientCertificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "client_sign");
             if (DigitalSignature.Verify(m, "SHA1", signature, clientCertificate))
             {
-                Console.WriteLine("Digital Signature is valid.");
+                Console.WriteLine(@"Izaberitre nacin upisivanja [1/2]:");
                 SyslogMessage syslogMessage = new SyslogMessage();
                 var arrayRecieved = System.Text.Encoding.UTF8.GetString(message).Split('`');
 
@@ -165,7 +165,7 @@ namespace SyslogClient
 
                 return true;
             }
-            Console.WriteLine("Digital Signature is invalid.");
+            Console.WriteLine(@"Izaberitre nacin upisivanja [1/2]:");
             return false;
         }
 
@@ -247,7 +247,6 @@ namespace SyslogClient
                     CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, syslogServerCert1);
                 EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:" + portServer1 + "/SecurityService"),
                     new X509CertificateEndpointIdentity(srvCert));
-                // string address = "net.tcp://localhost:26000/SecurityService";
 
                 using (SyslogClientProxy proxy = new SyslogClientProxy(binding, address))
                 {
@@ -309,8 +308,6 @@ namespace SyslogClient
                     CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, syslogServerCert2);
                 EndpointAddress address2 = new EndpointAddress(new Uri("net.tcp://localhost:" + portServer2 + "/SecurityService"),
                     new X509CertificateEndpointIdentity(srvCert2));
-                //string address = "net.tcp://localhost:27000/SecurityService";
-
 
                 using (SyslogClientProxy proxy = new SyslogClientProxy(binding2, address2))
                 {

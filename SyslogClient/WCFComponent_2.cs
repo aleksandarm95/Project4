@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Threading;
 using System.Security.Principal;
+using System.ServiceModel.Description;
 
 namespace SyslogClient
 {
@@ -21,6 +22,9 @@ namespace SyslogClient
 
             ServiceHost host = new ServiceHost(typeof(Services));
             host.AddServiceEndpoint(typeof(IServices), binding, address);
+
+            host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
             host.Open();
         }
 
@@ -28,7 +32,7 @@ namespace SyslogClient
         {
             WindowsPrincipal principal = Thread.CurrentPrincipal as WindowsPrincipal;
 
-            syslogMessage.successfullyAccessed = "FAILED accessed";
+            syslogMessage.SuccessfullyAccessed = "FAILED accessed";
             /*if (principal.IsInRole(Permissions.Read.ToString()))
             {
                 syslogMessage.successfullyAccessed = "SUCCESSFULLY accessed";
@@ -45,7 +49,7 @@ namespace SyslogClient
                     var fullName = sid.Translate(typeof(NTAccount));
                     if (fullName.ToString().Contains("Reader"))
                     {
-                        syslogMessage.successfullyAccessed = "SUCCESSFULLY accessed";
+                        syslogMessage.SuccessfullyAccessed = "SUCCESSFULLY accessed";
                         groupExists = true;
                         break;
                     }
@@ -64,7 +68,7 @@ namespace SyslogClient
             catch 
             {
                 //slucaj ako ne postoji fajl
-                streamReader.Close();
+                streamReader?.Close();
                 streamWriter = new StreamWriter(@"..\..\SyslogFile.xml");
                 xmlSerializer.Serialize(streamWriter, syslogList);
                 streamWriter.Close();

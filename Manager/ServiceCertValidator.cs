@@ -14,8 +14,8 @@ namespace Manager
     {
         public override void Validate(X509Certificate2 certificate)
         {
-            //TODO "syslog"
-            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "syslog2");
+            // X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "syslog2");
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, Formatter.ParseName(WindowsIdentity.GetCurrent().Name));
 
             if (!certificate.Issuer.Equals(srvCert.Issuer))
             {

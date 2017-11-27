@@ -10,7 +10,7 @@ namespace SyslogClient
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Syslog client is started!");
+            Console.WriteLine(@"Izaberitre nacin upisivanja [1/2]:");
             WCFComponent_1 wcfc1 = new WCFComponent_1();
             WCFComponent_2 wcfc2 = new WCFComponent_2();
             Console.ReadLine();

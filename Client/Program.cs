@@ -1,14 +1,6 @@
 ﻿     using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Cryptography.X509Certificates;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
-using Common;
-using Manager;
+     using System.ServiceModel;
+     using Common;
 
 namespace Client
 {
@@ -18,19 +10,10 @@ namespace Client
         {
             string component = ""; 
             string message = "";
-            string messageToSend = "";
 
-
-
-            #region Cert
-
-            string syslogClientCert = "syslogclient";
-            string clientCert_sign = "client_sign";
-
-            #endregion
             do
             {
-                Console.WriteLine("Izaberitre nacin upisivanja:");
+                Console.WriteLine("Izaberitre nacin upisivanja [1/2]:");
 
                 component = Console.ReadLine();
 
@@ -51,10 +34,9 @@ namespace Client
             if (component == "1")
             {
                 binding = new NetTcpBinding();
-                string address = "net.tcp://10.1.212.155:55555/SecurityService";
+                string address = "net.tcp://localhost:55555/SecurityService";
                 using (ClientProxy proxy = new ClientProxy(binding, address))
                 {
-
                     proxy.SendKeys(keys);
                 }
             }
@@ -62,7 +44,7 @@ namespace Client
             {
                 binding = new NetTcpBinding();
 
-                string address = "net.tcp://10.1.212.155:44444/SecurityService";
+                string address = "net.tcp://localhost:44444/SecurityService";
                 using (ClientProxy proxy = new ClientProxy(binding, address))
                 {
                     proxy.SendKeys(keys);
@@ -74,28 +56,28 @@ namespace Client
                 var severity = 0;
                 do
                 {
-                    Console.WriteLine("Unesite tip poruke[0-7]:");
+                    Console.WriteLine("Izaberitre nacin upisivanja [1/2]:");
                     try
                     {
                         severity = Convert.ToInt32(Console.ReadLine());
                     }
                     catch
                     {
-                        Console.WriteLine("Los unos!");
-                        severity = 10;
+                        Console.WriteLine("Izaberitre nacin upisivanja [1/2]:");
+                        severity = -1;
                     }
                     //try za los unos
                 } while (severity < 0 || severity > 7);
 
-                Console.WriteLine("Unesite poruku:");
+                Console.WriteLine("Izaberitre nacin upisivanja [1/2]:");
                 message = Console.ReadLine();
 
-                messageToSend = severity + "`" + component + "`" + message;
+                var messageToSend = severity + "`" + component + "`" + message;
 
                 if (component == "1")
                 {
                     binding = new NetTcpBinding();
-                    string address = "net.tcp://10.1.212.155:55555/SecurityService";
+                    string address = "net.tcp://localhost:55555/SecurityService";
                     using (ClientProxy proxy = new ClientProxy(binding, address))
                     {
                         proxy.Send(DES.TripleEncrypt(messageToSend, key1, key2, key3, true));
@@ -105,7 +87,7 @@ namespace Client
                 {
                     binding = new NetTcpBinding();
 
-                    string address = "net.tcp://10.1.212.155:44444/SecurityService";
+                    string address = "net.tcp://localhost:44444/SecurityService";
                     using (ClientProxy proxy = new ClientProxy(binding, address))
                     {
                         proxy.Send(DES.TripleEncrypt(messageToSend, key1, key2, key3, true));
