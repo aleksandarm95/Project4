@@ -21,7 +21,7 @@ namespace SyslogClient
             X509Certificate2 clientCertificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "client_sign");
             if (DigitalSignature.Verify(m, "SHA1", signature, clientCertificate))
             {
-                Console.WriteLine(@"Izaberitre nacin upisivanja [1/2]:");
+                Console.WriteLine("Digital Signature is valid.");
                 SyslogMessage syslogMessage = new SyslogMessage();
                 var arrayRecieved = System.Text.Encoding.UTF8.GetString(message).Split('`');
 
@@ -165,7 +165,7 @@ namespace SyslogClient
 
                 return true;
             }
-            Console.WriteLine(@"Izaberitre nacin upisivanja [1/2]:");
+            Console.WriteLine("Digital Signature is invalid.");
             return false;
         }
 

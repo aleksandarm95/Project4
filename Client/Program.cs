@@ -14,9 +14,7 @@ namespace Client
             do
             {
                 Console.WriteLine("Izaberitre nacin upisivanja [1/2]:");
-
                 component = Console.ReadLine();
-
             } while (component != "1" && component != "2");
 
             NetTcpBinding binding = null;
@@ -56,20 +54,20 @@ namespace Client
                 var severity = 0;
                 do
                 {
-                    Console.WriteLine("Izaberitre nacin upisivanja [1/2]:");
+                    Console.WriteLine("Unesite tip poruke[0-7]:");
                     try
                     {
                         severity = Convert.ToInt32(Console.ReadLine());
                     }
                     catch
                     {
-                        Console.WriteLine("Izaberitre nacin upisivanja [1/2]:");
+                        Console.WriteLine("Los unos!");
                         severity = -1;
                     }
                     //try za los unos
                 } while (severity < 0 || severity > 7);
 
-                Console.WriteLine("Izaberitre nacin upisivanja [1/2]:");
+                Console.WriteLine("Unesite poruku:");
                 message = Console.ReadLine();
 
                 var messageToSend = severity + "`" + component + "`" + message;

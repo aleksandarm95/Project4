@@ -57,7 +57,7 @@ namespace Syslog
         public ISystemServer CreateClientSide(string port)
         {
             NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://10.1.212.120:" + port + "/SystemServer";
+            string address = "net.tcp://localhost:" + port + "/SystemServer";
 
             ChannelFactory<ISystemServer> factory = new ChannelFactory<ISystemServer>(binding, address);
 
