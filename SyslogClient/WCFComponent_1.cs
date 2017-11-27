@@ -21,7 +21,6 @@ namespace SyslogClient
     {
         public WCFComponent_1()
         {
-            string syslogClientCert = "syslogclient";
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:55555/SecurityService";
 

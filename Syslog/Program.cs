@@ -17,11 +17,11 @@ namespace Syslog
 
         static void Main(string[] args)
         {
-            string portToSyslogServer = Console.ReadLine();
+            string portToSyslogClient = Console.ReadLine();
             string portServer = Console.ReadLine();
             string portClient = Console.ReadLine();
             
-            SyslogService ss = new SyslogService(portToSyslogServer);
+            SyslogService ss = new SyslogService(portToSyslogClient);
             
             Task t = new Task(() =>
             {

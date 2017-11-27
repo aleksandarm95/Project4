@@ -189,6 +189,7 @@ namespace SyslogClient
             else
             {
                 Console.WriteLine("NEMA GA U LISTI-> " + principal.Identity.Name);
+                return false;
             }
 
             SyslogMessage syslogMessage = new SyslogMessage();
@@ -204,7 +205,6 @@ namespace SyslogClient
             Console.WriteLine("PRIMLJENA PORUKA-> " + syslogMessage.Message);
 
             bool successfullyAccessed = false;
-            bool groupExists = false;
             if (component == 1)
             {
                 successfullyAccessed = WCFComponent_1.EventLogSerialize(syslogMessage);
@@ -260,7 +260,6 @@ namespace SyslogClient
                         X509Certificate2 signCert = CertManager.GetCertificateFromStorage(StoreName.My,
                             StoreLocation.LocalMachine, syslogClient_sign);
                         byte[] signatureServerBytes = DigitalSignature.Create(messageToSend, "SHA1", signCert);
-                        var arr = Encoding.ASCII.GetBytes(messageToSend);
                         proxy.SendTry(Encoding.ASCII.GetBytes(messageToSend), signatureServerBytes);
                     }
                 }
@@ -326,15 +325,15 @@ namespace SyslogClient
         {
             string keys = DES.Decrypt(message, DES.ReadKeyFromFile("psw1.txt"), true);
 
-            string[] retVal = new string[3];
+            string[] keysArray = new string[3];
 
-            retVal[0] = keys.Substring(0, 8);
-            retVal[1] = keys.Substring(8, 8);
-            retVal[2] = keys.Substring(16, 8);
+            keysArray[0] = keys.Substring(0, 8);
+            keysArray[1] = keys.Substring(8, 8);
+            keysArray[2] = keys.Substring(16, 8);
 
             WindowsPrincipal principal = Thread.CurrentPrincipal as WindowsPrincipal;
 
-            clientsKeys.Add(principal.Identity.Name, retVal);
+            clientsKeys.Add(principal.Identity.Name, keysArray);
         }
     }
 }
