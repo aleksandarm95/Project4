@@ -12,6 +12,7 @@ namespace Common
     {
 
         const int BLOCK_SIZE = 64; //size of block we want to encrypt and decrypt
+        private const int numberOfCycles = 16;
         static int[] numberOfKeyShifts = { 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1 }; //number of key shifts for each cycle 
 
         /* initial permutation IP */
@@ -216,7 +217,7 @@ namespace Common
             }
 
             Dictionary<int, byte[]> keys = new Dictionary<int, byte[]>();
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < numberOfCycles; i++)
             {
                 keys[i] = KeyGenerate(keyString, i);
             }
@@ -294,7 +295,7 @@ namespace Common
 
             BlockPair pair = new BlockPair(left, right);
 
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < numberOfCycles; i++)
             {
                 pair = FeistelNetwork(pair, keys[i]);
             }
@@ -335,7 +336,7 @@ namespace Common
             }
 
             Dictionary<int, byte[]> keys = new Dictionary<int, byte[]>();
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < numberOfCycles; i++)
             {
                 keys[15 - i] = KeyGenerate(keyString, i);
             }
@@ -424,7 +425,7 @@ namespace Common
             BlockPair pair = new BlockPair(left, right);
             pair.Rotate();
 
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < numberOfCycles; i++)
             {
                 pair = FeistelNetwork(pair, keys[i]);
             }
@@ -614,18 +615,18 @@ namespace Common
                 throw new ArgumentException("Block size error!");
             }
 
-            int coloms = BLOCK_SIZE;
+            int colomns = BLOCK_SIZE;
             int rows = input.Length / BLOCK_SIZE;
 
             byte[][] retVal = new byte[rows][];
             for (int i = 0; i < rows; i++)
             {
-                retVal[i] = new byte[coloms];
+                retVal[i] = new byte[colomns];
             }
 
             for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < coloms; j++)
+                for (int j = 0; j < colomns; j++)
                 {
                     retVal[i][j] = input[i * BLOCK_SIZE + j];
                 }
@@ -749,7 +750,7 @@ namespace Common
         static byte[] ShortKey(byte[] key)
         {
 
-            if (key.Length != 64)
+            if (key.Length != BLOCK_SIZE)
             {
                 throw new ArgumentException("Key length must be 64 bits!");
 
@@ -757,7 +758,7 @@ namespace Common
 
             byte[] shortKey = new byte[56];
             int j = 0;
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i < BLOCK_SIZE; i++)
             {
                 if (i % 8 != 7)
                 {

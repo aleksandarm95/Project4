@@ -14,7 +14,7 @@ namespace Common
 
         public DateTime Time { get; set; }
 
-        public string HostName { get; set; }
+        public string ClientName { get; set; }
 
         public string Message { get; set; }
 

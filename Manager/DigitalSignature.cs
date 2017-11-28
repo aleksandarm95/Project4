@@ -29,7 +29,7 @@ namespace Manager
             byte[] hash = sha1.ComputeHash(data);
 
             /// Use RSACryptoServiceProvider support to create a signature using a previously created hash value
-            byte[] signature = csp.SignHash(hash, CryptoConfig.MapNameToOID("SHA1"));
+            byte[] signature = csp.SignHash(hash, CryptoConfig.MapNameToOID(hashAlgorithm));
             return signature;
         }
 

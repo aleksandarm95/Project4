@@ -17,11 +17,14 @@ namespace Syslog
 
         static void Main(string[] args)
         {
-            string portToSyslogServer = Console.ReadLine();
+            Console.WriteLine("Unesite port za povezivanje sa Syslogclient-om:");
+            string portToSyslogClient = Console.ReadLine();
+            Console.WriteLine("Unesite port za otvaranje konekcije sa drugim serverom: ");
             string portServer = Console.ReadLine();
+            Console.WriteLine("Unesite port za povezivanje sa drugim serverom: ");
             string portClient = Console.ReadLine();
             
-            SyslogService ss = new SyslogService(portToSyslogServer);
+            SyslogService ss = new SyslogService(portToSyslogClient);
             
             Task t = new Task(() =>
             {
@@ -60,7 +63,7 @@ namespace Syslog
             }
             catch
             {
-                Console.WriteLine(portClient + "-> primarni");
+                Console.WriteLine("Primarni");
                 _serverKind = SyslogService.ServerKind.Primary;
                 firstConnect = false;
             }

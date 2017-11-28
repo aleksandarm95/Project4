@@ -21,9 +21,9 @@ namespace Syslog
             string line = "";
             List<string> lines = new List<string>();
 
-            var m = Encoding.ASCII.GetString(message);
+           // var m = Encoding.ASCII.GetString(message);
             X509Certificate2 clientCertificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "syslogclient_sign");
-            if (DigitalSignature.Verify(m, "SHA1", signature, clientCertificate))
+            if (DigitalSignature.Verify(messageFrom, "SHA1", signature, clientCertificate))
             {
                 Console.WriteLine("Digital Signature is valid.");
                 try
@@ -93,64 +93,6 @@ namespace Syslog
 
         public bool Send(byte[] message)
         {
-            string messageFrom = Encoding.UTF8.GetString(message);
-
-            Console.WriteLine(messageFrom);
-
-            StreamWriter sw = null;
-
-            string line = "";
-            List<string> lines = new List<string>();
-
-            try
-            {
-                StreamReader sr = new StreamReader(@"..\..\..\SyslogServices.txt");
-
-                line = sr.ReadLine();
-
-                if (line == null)
-                {
-                    sr.Close();
-                }
-
-                lines.Add(line);
-
-                while (line != null)
-                {
-                    line = sr.ReadLine();
-                    lines.Add(line);
-                }
-                
-                sr.Close();
-            }
-            catch
-            {
-                sw = new StreamWriter(@"..\..\..\SyslogServices.txt");
-
-                sw.Close();
-            }
-
-            lines.Add(messageFrom);
-
-            sw = new StreamWriter(@"..\..\..\SyslogServices.txt");
-            lock (lines)
-            {  foreach (var item in lines)
-                {
-                    sw.WriteLine(item);
-                }
-            }
-            sw.Close();
-
-            try
-            {
-                SyslogService ss = new SyslogService();
-                ISystemServer proxy = ss.CreateClientSide("58001");
-                proxy.Send(message);
-            }
-            catch
-            {
-            }
-
             return true;
         }
 

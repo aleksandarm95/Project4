@@ -25,8 +25,6 @@ namespace Client
             string key2 = RandomKey(r);
             string key3 = RandomKey(r);
 
-            Console.WriteLine(key1);
-
             byte[] keys = DES.Encrypt(key1 + key2 + key3, DES.ReadKeyFromFile("psw1.txt"), true);
 
             if (component == "1")

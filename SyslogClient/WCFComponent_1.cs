@@ -21,16 +21,15 @@ namespace SyslogClient
     {
         public WCFComponent_1()
         {
-            string syslogClientCert = "syslogclient";
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:55555/SecurityService";
 
             ServiceHost host = new ServiceHost(typeof(Services));
             host.AddServiceEndpoint(typeof(IServices), binding, address);
 
-            List<IAuthorizationPolicy> policies = new List<IAuthorizationPolicy>();
-            policies.Add(new CustomAuthorizationPolicy());
-            host.Authorization.ExternalAuthorizationPolicies = policies.AsReadOnly();
+            //List<IAuthorizationPolicy> policies = new List<IAuthorizationPolicy>();
+            //policies.Add(new CustomAuthorizationPolicy());
+            //host.Authorization.ExternalAuthorizationPolicies = policies.AsReadOnly();
 
             host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
             host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });

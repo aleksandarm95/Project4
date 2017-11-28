@@ -61,7 +61,7 @@ namespace Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User {0} accessed FAILED, Facility: {1}, Security: {2}, Time: {3}, Host name: {4}, Message: {5}.
+        ///   Looks up a localized string similar to User {0} accessed FAILED, Facility: {1}, Security: {2}, Time: {3}, Client name: {4}, Message: {5}.
         /// </summary>
         internal static string UserAuthorizationFailed {
             get {
@@ -70,7 +70,7 @@ namespace Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User {0} SUCCESSFULLY accessed, Facility: {1}, Security: {2}, Time: {3}, Host name: {4}, Message: {5}.
+        ///   Looks up a localized string similar to User {0} SUCCESSFULLY accessed, Facility: {1}, Security: {2}, Time: {3}, Client name: {4}, Message: {5}.
         /// </summary>
         internal static string UserAuthorizationSuccess {
             get {

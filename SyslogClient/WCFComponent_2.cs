@@ -33,19 +33,15 @@ namespace SyslogClient
             WindowsPrincipal principal = Thread.CurrentPrincipal as WindowsPrincipal;
 
             syslogMessage.SuccessfullyAccessed = "FAILED accessed";
-            /*if (principal.IsInRole(Permissions.Read.ToString()))
-            {
-                syslogMessage.successfullyAccessed = "SUCCESSFULLY accessed";
-                allowed = true;
-            }*/
 
             bool groupExists = false;
             
             var groups = ((WindowsIdentity)(principal.Identity)).Groups;
             if (groups != null)
+            {
                 foreach (IdentityReference group in groups)
                 {
-                    SecurityIdentifier sid = (SecurityIdentifier)@group.Translate(typeof(SecurityIdentifier));
+                    SecurityIdentifier sid = (SecurityIdentifier) group.Translate(typeof(SecurityIdentifier));
                     var fullName = sid.Translate(typeof(NTAccount));
                     if (fullName.ToString().Contains("Reader"))
                     {
@@ -54,6 +50,7 @@ namespace SyslogClient
                         break;
                     }
                 }
+            }
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<SyslogMessage>));
             StreamReader streamReader = null;

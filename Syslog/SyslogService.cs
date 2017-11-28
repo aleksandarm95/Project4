@@ -28,7 +28,8 @@ namespace Syslog
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
             string address = "net.tcp://localhost:"+  port +"/SecurityService";
-           string syslogCert = Common.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+
+            string syslogCert = Common.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
             ServiceHost host = new ServiceHost(typeof(Services));
             host.AddServiceEndpoint(typeof(IServices), binding, address);

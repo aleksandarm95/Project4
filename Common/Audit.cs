@@ -46,7 +46,7 @@ namespace Common
         {
             string UserAuthorizationSuccess = AuditEvents.UserAuthorizationSuccess;
             string userAuthorizationSuccess = String.Format(UserAuthorizationSuccess, new object[] {userName, syslogMessage.Facility.ToString(), syslogMessage.Severity.ToString(),
-                syslogMessage.Time.ToString(), syslogMessage.HostName, syslogMessage.Message});
+                syslogMessage.Time.ToString(), syslogMessage.ClientName, syslogMessage.Message});
 
             if (customLog != null)
             {
@@ -62,7 +62,7 @@ namespace Common
         {
             string UserAuthorizationFailed = AuditEvents.UserAuthorizationFailed;
             string userAuthorizationFailed = String.Format(UserAuthorizationFailed, new object[] {userName, syslogMessage.Facility.ToString(), syslogMessage.Severity.ToString(),
-                syslogMessage.Time.ToString(), syslogMessage.HostName, syslogMessage.Message});
+                syslogMessage.Time.ToString(), syslogMessage.ClientName, syslogMessage.Message});
 
             if (customLog != null)
             {
