@@ -182,7 +182,7 @@ namespace Common
             }
             catch (Exception e)
             {
-                Console.WriteLine($@"TripleDecrypt: {e.Message}");
+                Console.WriteLine($"TripleDecrypt: {e.Message}");
                 return null;
             }
         }
@@ -502,7 +502,7 @@ namespace Common
 
             if (input.Length != 48)
             {
-                throw new ArgumentException("Substitution input size must bi 48 bits!");
+                throw new ArgumentException("Substitution input size must be 48 bits!");
             }
 
             byte[] retVal = new byte[32];
