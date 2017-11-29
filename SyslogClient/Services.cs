@@ -111,7 +111,6 @@ namespace SyslogClient
                         X509Certificate2 signCert = CertManager.GetCertificateFromStorage(StoreName.My,
                             StoreLocation.LocalMachine, syslogClient_sign);
                         byte[] signatureServerBytes = DigitalSignature.Create(messageToSend, "SHA1", signCert);
-                        var arr = Encoding.ASCII.GetBytes(messageToSend);
                         proxy.SendTry(Encoding.ASCII.GetBytes(messageToSend), signatureServerBytes);
                     }
                 }

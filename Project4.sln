@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syslog", "Syslog\Syslog.csproj", "{ACACCD0C-CC28-4A41-B2AF-68409DEDD9E5}"
 EndProject
@@ -35,8 +35,8 @@ Global
 		{5E9B074E-5DCA-4AB6-878A-9F4C434DAA08}.Debug|Any CPU.Build.0 = Debug|x86
 		{5E9B074E-5DCA-4AB6-878A-9F4C434DAA08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E9B074E-5DCA-4AB6-878A-9F4C434DAA08}.Release|Any CPU.Build.0 = Release|Any CPU
-		{10B552A2-60BF-4F4C-883C-2CE849DFE478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10B552A2-60BF-4F4C-883C-2CE849DFE478}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10B552A2-60BF-4F4C-883C-2CE849DFE478}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{10B552A2-60BF-4F4C-883C-2CE849DFE478}.Debug|Any CPU.Build.0 = Debug|x86
 		{10B552A2-60BF-4F4C-883C-2CE849DFE478}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10B552A2-60BF-4F4C-883C-2CE849DFE478}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
