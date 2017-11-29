@@ -10,7 +10,7 @@ namespace Client
         {
             string component = ""; 
             string message = "";
-
+			
             do
             {
                 Console.WriteLine("Izaberitre nacin upisivanja [1/2]:");

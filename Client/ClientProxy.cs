@@ -31,10 +31,17 @@ namespace Client
             return factory.CheckIfPrimary();
         }
 
-        public bool Send(byte[] message)
-        {
-            return factory.Send(message);
-        }
+		public bool Send(byte[] message) {
+			try {
+				return factory.Send(message);
+
+			} catch( Exception e ) {
+
+				Console.WriteLine(e);
+				throw;
+			}
+		}
+		
 
         public void SendKeys(byte[] keys)
         {

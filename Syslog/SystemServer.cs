@@ -57,13 +57,12 @@ namespace Syslog
             lines.Add(messageFrom);
 
             sw = new StreamWriter(@"..\..\..\SyslogServices.txt");
-            lock (lines)
+
+            foreach (var item in lines)
             {
-                foreach (var item in lines)
-                {
-                    sw.WriteLine(item);
-                }
+                sw.WriteLine(item);
             }
+            
             sw.Close();
 
             return true;

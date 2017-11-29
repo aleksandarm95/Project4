@@ -120,7 +120,7 @@ namespace SyslogClient
                     {
                         NetTcpBinding binding2 = new NetTcpBinding();
                         binding2.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
-                        X509Certificate2 srvCert2 = CertManager.GetCertificateFromStorage(StoreName.My,
+                        X509Certificate2 srvCert2 = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople,
                             StoreLocation.LocalMachine, syslogServerCert2);
                         EndpointAddress address2 = new EndpointAddress(
                             new Uri("net.tcp://localhost:" + portServer2 + "/SecurityService"),
@@ -154,7 +154,7 @@ namespace SyslogClient
                 NetTcpBinding binding2 = new NetTcpBinding();
                 binding2.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
                 X509Certificate2 srvCert2 =
-                    CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, syslogServerCert2);
+                    CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, syslogServerCert2);
                 EndpointAddress address2 = new EndpointAddress(new Uri("net.tcp://localhost:" + portServer2 + "/SecurityService"),
                     new X509CertificateEndpointIdentity(srvCert2));
 

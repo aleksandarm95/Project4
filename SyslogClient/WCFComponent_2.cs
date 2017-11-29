@@ -15,7 +15,8 @@ namespace SyslogClient
 {
     public class WCFComponent_2
     {
-        public WCFComponent_2()
+		static object oLock = new object();
+		public WCFComponent_2()
         {
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:44444/SecurityService";
@@ -41,42 +42,46 @@ namespace SyslogClient
             {
                 foreach (IdentityReference group in groups)
                 {
-                    SecurityIdentifier sid = (SecurityIdentifier) group.Translate(typeof(SecurityIdentifier));
-                    var fullName = sid.Translate(typeof(NTAccount));
-                    if (fullName.ToString().Contains("Reader"))
-                    {
-                        syslogMessage.SuccessfullyAccessed = "SUCCESSFULLY accessed";
-                        groupExists = true;
-                        break;
-                    }
-                }
+
+					try {
+						SecurityIdentifier sid = (SecurityIdentifier)@group.Translate(typeof(SecurityIdentifier));
+						var fullName = sid.Translate(typeof(NTAccount));
+						if( fullName.ToString().Contains("Reader") ) {
+							groupExists = true;
+							break;
+						}
+					} catch( Exception ) {
+
+						continue;
+					}
+				}
             }
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<SyslogMessage>));
             StreamReader streamReader = null;
             StreamWriter streamWriter = null;
             List<SyslogMessage> syslogList = new List<SyslogMessage>();
-            try
-            {
-                streamReader = new StreamReader(@"..\..\SyslogFile.xml");
-                syslogList = (List<SyslogMessage>)xmlSerializer.Deserialize(streamReader);
-                streamReader.Close();
-            }
-            catch 
-            {
-                //slucaj ako ne postoji fajl
-                streamReader?.Close();
-                streamWriter = new StreamWriter(@"..\..\SyslogFile.xml");
-                xmlSerializer.Serialize(streamWriter, syslogList);
-                streamWriter.Close();
-            }
 
-            syslogList.Add(syslogMessage);
-            streamWriter = new StreamWriter(@"..\..\SyslogFile.xml");
-            xmlSerializer.Serialize(streamWriter, syslogList);
-            streamWriter.Close();
+			lock( oLock ) {
+				try {
+					streamReader = new StreamReader(@"..\..\SyslogFile.xml");
+					syslogList = (List<SyslogMessage>)xmlSerializer.Deserialize(streamReader);
+					streamReader.Close();
+				} catch {
+					//slucaj ako ne postoji fajl
+					streamReader?.Close();
+					streamWriter = new StreamWriter(@"..\..\SyslogFile.xml");
+					xmlSerializer.Serialize(streamWriter, syslogList);
+					streamWriter.Close();
+				}
 
 
+				syslogList.Add(syslogMessage);
+				streamWriter = new StreamWriter(@"..\..\SyslogFile.xml");
+				xmlSerializer.Serialize(streamWriter, syslogList);
+				streamWriter.Close();
+
+			}
             return groupExists;
         }
     }

@@ -22,7 +22,7 @@ namespace Syslog
             List<string> lines = new List<string>();
 
            // var m = Encoding.ASCII.GetString(message);
-            X509Certificate2 clientCertificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "syslogclient_sign");
+            X509Certificate2 clientCertificate = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, "syslogclient_sign");
             if (DigitalSignature.Verify(messageFrom, "SHA1", signature, clientCertificate))
             {
                 Console.WriteLine("Digital Signature is valid.");
